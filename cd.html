@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet"> 
+<style>
+body{
+    background-color: black;
+    margin-top: 16%;
+  }
+p {
+  text-align: center;
+  font-size: 100px;
+  font-family: 'Oswald', sans-serif; 
+  color: white;
+}
+</style>
+</head>
+<body>
+
+<p id="countdown"></p>
+
+<script>
+//?date=yyyymmdd
+//&time=hhmmss
+
+var url_string = window.location.href;
+var url = new URL(url_string);
+var date = url.searchParams.get("date");
+var time = url.searchParams.get("time");
+
+var year = date.substring(0,4);
+var month = date.substring(4,6);
+month = parseInt(month, 10);
+month = month-1; // because the month is 0-indexed -.-
+var day = date.substring(6,8);
+
+if(time > 0) {
+  var hours = time.substring(0,2);
+  var minutes = time.substring(2,4);
+  var seconds = time.substring(4,6);
+} else {
+  var hours = 0;
+  var minutes = 0;
+  var seconds = 0;
+}
+
+try {
+  var countDownDate = new Date(year,month,day,hours,minutes,seconds);
+}
+catch(e){
+  document.getElementById("countdown").innerHTML = "nope";
+}
+
+var x = setInterval(function() {
+
+  var distance = countDownDate - new Date();
+
+//this part is from https://www.sitepoint.com/build-javascript-countdown-timer-no-dependencies/  
+  var days = Math.floor( distance/(1000*60*60*24) );
+  var hours = Math.floor( (distance/(1000*60*60)) % 24 );
+  var minutes = Math.floor( (distance/1000/60) % 60 );
+  var seconds = Math.floor( (distance/1000) % 60 );
+
+  document.getElementById("countdown").innerHTML = days + " Tage " + hours + " Stunden "
+  + minutes + " Minuten " + seconds + " Sekunden ";
+    
+  if(isNaN(distance)){
+    document.getElementById("countdown").innerHTML = "nope";
+  }
+  if (distance < 0) {
+    clearInterval(x);
+    document.getElementById("countdown").innerHTML = "EXPIRED";
+  }
+}, 1000);
+</script>
+
+</body>
+</html>
