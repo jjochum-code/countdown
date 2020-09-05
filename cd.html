@@ -7,17 +7,17 @@
   body{
       background-color: black;
       margin-top: 16%;
+      color: white;
     }
   p {
     text-align: center;
     font-size: 100px;
     font-family: 'Oswald', sans-serif; 
-    color: white;
-  }
+    }
 </style>
 </head>
 <body>
-
+<p id="title"></p>
 <p id="countdown"></p>
 
 <script>
@@ -28,6 +28,7 @@ var url_string = window.location.href;
 var url = new URL(url_string);
 var date = url.searchParams.get("date");
 var time = url.searchParams.get("time");
+var title = url.searchParams.get("title");
 
 var year = date.substring(0,4);
 var month = date.substring(4,6);
@@ -61,6 +62,11 @@ var x = setInterval(function() {
   var hours = Math.floor( (distance/(1000*60*60)) % 24 );
   var minutes = Math.floor( (distance/1000/60) % 60 );
   var seconds = Math.floor( (distance/1000) % 60 );
+
+  if(title){
+    document.getElementById("title").innerHTML = title;
+    document.getElementById("title").style.marginTop = "-11%";
+  }
 
   document.getElementById("countdown").innerHTML = days + " Tage " + hours + " Stunden "
   + minutes + " Minuten " + seconds + " Sekunden ";
